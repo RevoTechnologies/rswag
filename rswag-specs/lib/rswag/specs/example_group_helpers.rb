@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/string/inflections'
+
 module Rswag
   module Specs
     module ExampleGroupHelpers
@@ -54,6 +56,18 @@ module Rswag
       def response(code, description, metadata = {}, &block)
         metadata[:response] = { code: code, description: description }
         context(description, metadata, &block)
+      end
+
+      def example_context(description, metadata = {}, &block)
+        context(description, metadata.merge(skip_formatter: true), &block)
+      end
+
+      def example_value(value)
+        metadata[:response][:examples] ||= {}
+        metadata[:response][:examples][metadata[:description].parameterize] = {
+          summary: metadata[:description],
+          value: value
+        }
       end
 
       def schema(value)
