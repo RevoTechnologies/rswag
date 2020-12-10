@@ -292,7 +292,8 @@
                 "type": "file"
               }
             }
-          }
+          },
+          "required": true
         }
       }
     }
